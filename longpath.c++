@@ -6,6 +6,8 @@
 #include <map>
 #include <bitset>
 #include <iomanip>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -32,7 +34,7 @@ void printMaze(Maze& m) {
     }
 }
 
-// If input # of crosses if even, make it odd and vice-versa
+// If input # of crosses is even, make it odd and vice-versa
 void toggleCrosses(bool& crosses) {
     if (crosses) {
         crosses = false;
@@ -42,11 +44,25 @@ void toggleCrosses(bool& crosses) {
     }
 }
 
-// TODO Format the answer modulo 10^9+7
- 
+// Format the answer modulo 10^9
+string formatAnswer(int& x) {
+    stringstream ss;
+    string output;
+
+    if (x < 1000000000) {
+        ss << x;
+    }
+    else {
+        int remainder = x % 1000000000; 
+        ss << "10\u00b9 + " << remainder ; 
+    }
+        
+    output = ss.str();
+    return output;
+}
 
 // Return number of moves needed
-int solveMaze(Maze& m) {
+string solveMaze(Maze& m) {
     int moves = 0; 
     unsigned next_room_key = 1; 
     unsigned end_room_key = m.size() + 1;
@@ -54,7 +70,7 @@ int solveMaze(Maze& m) {
      * === pseudo code === 
      * begin at the first room
      * toggle the # of crosses
-     * check if the # of crosses if even or odd
+     * check if the # of crosses is even or odd
      * make next move, update move count
      * stop when we are at room number == last room +1  
      */
@@ -75,10 +91,10 @@ int solveMaze(Maze& m) {
     }
     
     /* 
-     * Also need to format the answer modulo 10^9+7 
+     * Also need to format the answer modulo 10^9 
      */
-    return moves; 
-    
+    string answer = formatAnswer(moves);
+    return answer; 
 }
 
 int main() {
